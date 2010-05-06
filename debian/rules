@@ -1,0 +1,104 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DEB_HOST_GNU_TYPE := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+CFLAGS = -Wall -g -Wextra -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith 
+ifneq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
+        CFLAGS += -O0
+else
+        CFLAGS += -O2
+endif
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+        MAKEFLAGS += -j$(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+endif
+ALSODO =
+# life would be to simple if there was something to work everywhere....
+ABIFLAG_32=-m32
+ABIFLAG_64=-m64
+
+# Disable until we have multilib support in libnl
+ifeq (dis,abled)
+# do not forget to update Build-depends when changing something here:
+ifeq ($(DEB_HOST_ARCH),sparc)
+ALSODO = 64
+else ifeq ($(DEB_HOST_ARCH),i386)
+ALSODO = 64
+else ifeq ($(DEB_HOST_ARCH),kfreebsd-amd64)
+ALSODO = 32
+else ifeq ($(DEB_HOST_ARCH),amd64)
+ALSODO = 32
+else ifeq ($(DEB_HOST_ARCH),mips)
+ABIFLAG_32=-mabi=n32
+ABIFLAG_64=-mabi=64
+ALSODO = 64 32
+else ifeq ($(DEB_HOST_ARCH),mipsel)
+ABIFLAG_32=-mabi=n32
+ABIFLAG_64=-mabi=64
+ALSODO = 64 32
+else ifeq ($(DEB_HOST_ARCH),powerpc)
+ALSODO = 64
+else ifeq ($(DEB_HOST_ARCH),s390)
+ALSODO = 64
+endif
+endif
+
+build-arch: build-arch-stamp $(foreach bits,$(ALSODO),build-arch-$(bits)-stamp)
+build-indep:
+build: build-arch-stamp
+
+build-arch-%-stamp:
+	$(MAKE) BITSOFS=$* CC="$(DEB_HOST_GNU_TYPE)-gcc" CFLAGS="$(ABIFLAG_$*) $(CFLAGS)"
+	touch $@
+
+build-arch-stamp:
+	dh_testdir
+	$(MAKE) CC="$(DEB_HOST_GNU_TYPE)-gcc" CFLAGS="$(CFLAGS)"
+	touch build-arch-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-arch*-stamp
+	$(MAKE) clean
+	rm -f *.o *.so *.so.*
+	dh_clean
+
+# Build architecture-independent files here.
+binary-indep: build-indep
+# We have nothing to do
+
+LIBNAME = libnss_gw_name.so.2
+
+# Build architecture-dependent files here.
+binary-arch: build-arch
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/libnss-gw-name
+	for also in $(ALSODO) ; do \
+		$(MAKE) BITSOFS=$${also} install DESTDIR=$(CURDIR)/debian/libnss-gw-name ; \
+	done
+	dh_lintian
+	dh_installchangelogs
+	dh_installdocs
+	dh_link
+	dh_strip
+	[ "$(ALSODO)" = "" ] || \
+	  dpkg-shlibdeps -Tdebian/libnss-gw-name.substvars \
+	    -palternatelibs -dSuggests \
+	    $(foreach bits,$(ALSODO), debian/libnss-gw-name/usr/lib$(bits)/$(LIBNAME))
+	dh_shlibdeps $(foreach bits,$(ALSODO), -X/usr/lib$(bits)/$(LIBNAME))
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build build-arch build-indep clean binary-indep binary-arch binary

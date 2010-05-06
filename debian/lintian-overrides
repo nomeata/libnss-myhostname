@@ -1,0 +1,7 @@
+libnss-gw-name: package-name-doesnt-match-sonames libnss-gw-name2
+libnss-gw-name: no-shlibs-control-file usr/lib/libnss_gw_name.so.2
+libnss-gw-name: no-shlibs-control-file usr/lib64/libnss_gw_name.so.2
+libnss-gw-name: no-shlibs-control-file usr/lib32/libnss_gw_name.so.2
+libnss-gw-name: no-symbols-control-file usr/lib64/libnss_gw_name.so.2
+libnss-gw-name: no-symbols-control-file usr/lib32/libnss_gw_name.so.2
+libnss-gw-name: no-symbols-control-file usr/lib/libnss_gw_name.so.2

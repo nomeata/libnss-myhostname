@@ -1,0 +1,25 @@
+Source: libnss-gw-name
+Section: admin
+Priority: extra
+Maintainer: Joachim Breitner <nomeata@debian.org>
+Build-Depends:
+  debhelper (>= 7),
+  pkg-config,
+  libnl-dev,
+# Disable multilib until libnl supports it
+# gcc-multilib [sparc i386 kfreebsd-amd64 amd64 mips mipsel powerpc s390]
+Standards-Version: 3.8.4
+Homepage: http://www.joachim-breitner.de/projects#libnss-gw-name
+VCS-Git: git://git.nomeata.de/libnss-gw-name.git
+VCS-Browser: http://git.nomeata.de/?p=libnss-gw-name.git
+
+
+Package: libnss-gw-name
+Architecture: linux-any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: ${alternatelibs:Suggests}
+Description: nss module that names the current gateway’s IP address
+ This Name Service Switch (NSS) module resolves the name “gateway.localhost” to
+ the IP of the current default gateways of the system. This allows easy access
+ to router configuration and to check if connectivity problems are local or
+ not.
