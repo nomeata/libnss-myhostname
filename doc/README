@@ -1,0 +1,151 @@
+                               nss-myhostname 0.2
+
+   Copyright 2005-2008 Lennart Poettering <mzzlubfganzr (at) 0pointer
+   (dot) de>
+     * [1]License
+     * [2]News
+     * [3]Overview
+     * [4]Current Status
+     * [5]Documentation
+     * [6]Requirements
+     * [7]Installation
+     * [8]Acknowledgements
+     * [9]Download
+
+License
+
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation, either version 2.1 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+   General Public License for more details.
+
+News
+
+   Mon Oct 27 2008:
+
+   [10]Version 0.2 released. Changes include: Update for IPv6 and newest
+   glibc NSS interfaces
+
+   Sat Nov 19 2005:
+
+   [11]Version 0.1 released. Initial release.
+
+Overview
+
+   nss-myhostname is a plugin for the GNU Name Service Switch (NSS)
+   functionality of the GNU C Library (glibc) providing host name
+   resolution for the locally configured system hostname as returned by
+   gethostname(2). A lot of software relies on that the local host name is
+   resolvable via DNS to an IPv4 or IPv6 address. When using dynamic
+   hostnames this is usually achieved by patching /etc/hosts which however
+   is suboptimal since it requires a writable /etc file system and is
+   fragile because the file might also be edited by the administrator.
+   nss-myhostname simply returns the IPv4 address 127.0.0.2 (wich is on
+   the local loopback) and the IPv6 address ::1 (which is the local host)
+   for whatever system hostname is configured locally. Patching
+   /etc/hostname is thus no longer necessary.
+
+Current Status
+
+   It works!
+
+Documentation
+
+   After compiling and installing nss-myhostname you'll find a new NSS
+   modules in /lib:
+     * libnss_myhostname.so.2
+
+   To activate the NSS modules you have to edit /etc/nsswitch.conf and add
+   myhostname to the line starting with "hosts:". On Debian this looks
+   like this:
+# /etc/nsswitch.conf
+
+passwd:         compat
+group:          compat
+shadow:         compat
+
+hosts:          files dns myhostname
+networks:       files
+
+protocols:      db files
+services:       db files
+ethers:         db files
+rpc:            db files
+
+netgroup:       nis
+
+   That's it. You should now always be able to resolve your local system
+   hostname. For a quick check use glibc's getent tool:
+$ getent ahosts `hostname`
+::1             STREAM omega
+::1             DGRAM
+::1             RAW
+127.0.0.2       STREAM
+127.0.0.2       DGRAM
+127.0.0.2       RAW
+
+   In this case the local host name is omega.
+
+   It is recommended to put myhostname last in the nsswitch.conf line to
+   make sure that this mapping is only used as fallback, and any DNS or
+   /etc/hosts based mapping takes precedence.
+
+Requirements
+
+   nss-myhostname uses NSS interfaces that are specific to modern glibc's.
+
+   nss-myhostname was developed and tested on Fedora 10 from October 2008,
+   it should work on most other Linux distributions since it uses GNU
+   autoconf and GNU libtool for source code configuration and shared
+   library management.
+
+Installation
+
+   As this package is made with the GNU autotools you should run
+   ./configure inside the distribution directory for configuring the
+   source tree. After that you should run make for compilation and make
+   install (as root) for installation of nss-myhostname.
+
+Acknowledgements
+
+   None so far.
+
+Download
+
+   The newest release is always available from
+   [12]http://0pointer.de/lennart/projects/nss-myhostname/
+
+   The current release is [13]0.2
+
+   Get nss-myhostname's development sources from the [14]GIT
+   [15]repository ([16]gitweb):
+git clone git://git.0pointer.de/nss-myhostname
+     __________________________________________________________________
+
+
+    Lennart Poettering <mzzlubfganzr (at) 0pointer (dot) de>, October
+    2008
+
+References
+
+   1. README#license
+   2. README#news
+   3. README#overview
+   4. README#status
+   5. README#documentation
+   6. README#requirements
+   7. README#installation
+   8. README#acks
+   9. README#download
+  10. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.2.tar.gz
+  11. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.1.tar.gz
+  12. http://0pointer.de/lennart/projects/nss-myhostname/
+  13. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.2.tar.gz
+  14. http://git.or.cz/
+  15. git://git.0pointer.de/nss-myhostname
+  16. http://git.0pointer.de/?p=nss-myhostname.git
