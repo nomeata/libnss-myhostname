@@ -8,8 +8,8 @@ Build-Depends:
   gcc-multilib [sparc i386 kfreebsd-amd64 amd64 mips mipsel powerpc s390]
 Standards-Version: 3.8.4
 Homepage: http://0pointer.de/lennart/projects/nss-myhostname/
-VCS-Git: git://git.nomeata.de/nss-myhostname.git
-VCS-Browser: http://git.nomeata.de/?p=nss-myhostname.git
+VCS-Git: git://git.nomeata.de/libnss-myhostname.git
+VCS-Browser: http://git.nomeata.de/?p=libnss-myhostname.git
 
 
 Package: libnss-myhostname
