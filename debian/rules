@@ -22,15 +22,11 @@ endif
 builddir = $(buildbasedir)/$*
 buildbasedir = $(CURDIR)/debian/build
 
-# install dir for the current flavor; this is only expanded in flavor specific
-# targets
-installdir = $(installbasedir)/$*
-installbasedir = $(CURDIR)/debian/install
-
-configure_flags += \
-		--prefix=/ \
+common_configure_flags += \
+		--prefix=/usr \
 		--mandir=/usr/share/man \
 		--infodir=/usr/share/info \
+		--docdir=/usr/share/doc/libnss-myhostname \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--libexecdir=/lib/nss-myhostname \
@@ -39,6 +35,10 @@ configure_flags += \
 ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 	configure_flags += --host=$(DEB_HOST_GNU_TYPE)
 endif
+
+main_configure_flags := $(common_configure_flags) --libdir=/lib
+
+m32_configure_flags := $(common_configure_flags) --libdir=/lib32
 
 common_cflags := -Wall -g -O$(if $(findstring noopt,$(DEB_BUILD_OPTIONS)),0,2)
 main_cflags := $(common_cflags)
@@ -51,7 +51,7 @@ $(STAMP_DIR)/configure-stamp-%:
 	mkdir -p $(builddir)
 	cd $(builddir) && \
 		CFLAGS="$($*_cflags)" LDFLAGS="$(LDFLAGS)" \
-			$(CURDIR)/configure $(configure_flags)
+			$(CURDIR)/configure $($*_configure_flags)
 	-mkdir -p $(STAMP_DIR)
 	touch $@
 
@@ -65,8 +65,7 @@ $(STAMP_DIR)/build-stamp-%: $(STAMP_DIR)/configure-stamp-%
 build: $(addprefix $(STAMP_DIR)/build-stamp-, $(FLAVORS))
 
 $(STAMP_DIR)/install-stamp-%: $(STAMP_DIR)/build-stamp-%
-	mkdir -p $(installdir)
-	$(MAKE) -C $(builddir) install DESTDIR=$(installdir)
+	$(MAKE) -C $(builddir) install DESTDIR=$(CURDIR)/debian/libnss-myhostname
 	touch $@
 
 install: $(addprefix $(STAMP_DIR)/install-stamp-, $(FLAVORS))

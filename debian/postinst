@@ -33,7 +33,8 @@ insert_nss_entry() {
                 return join " ", @bits;
             }
             # append myhostname at the end
-	    append @bits, "myhostname";
+	    push @bits, "myhostname";
+	    return join " ",@bits;
         }
         s/^(hosts:\s+)(.*)/$1.insert($2)/e;
     ' /etc/nsswitch.conf
