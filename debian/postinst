@@ -14,8 +14,8 @@ log() {
 }
 
 # try to insert mdns entries to the "hosts" line in /etc/nsswitch.conf to
-# automatically enable libnss-gw-name support; do not change the configuration if the
-# "hosts" line already references some gw-name lookups
+# automatically enable libnss-myhostname support; do not change the configuration if the
+# "hosts" line already references some myhostname lookups
 insert_nss_entry() {
     log "Checking NSS setup..."
     # abort if /etc/nsswitch.conf does not exist
@@ -29,13 +29,11 @@ insert_nss_entry() {
             my @bits=split(" ", shift);
             # do not break configuration if the "hosts" line already references
             # mdns
-            if (grep { $_ eq "gw_name"} @bits) {
+            if (grep { $_ eq "myhostname"} @bits) {
                 return join " ", @bits;
             }
-            # change "files" into "files gw_name"
-            return join " ", map {
-                $_ eq "files" ? ("$_","gw_name") : $_
-            } @bits;
+            # append myhostname at the end
+	    append @bits, "myhostname";
         }
         s/^(hosts:\s+)(.*)/$1.insert($2)/e;
     ' /etc/nsswitch.conf
@@ -47,7 +45,7 @@ if [ configure = "$action" ]; then
     if [ -z "$2" ]; then
         log "First installation detected..."
         # first install: setup the recommended configuration (unless
-        # nsswitch.conf already contains gw_name entries)
+        # nsswitch.conf already contains myhostname entries)
         insert_nss_entry
     else
         # upgrade

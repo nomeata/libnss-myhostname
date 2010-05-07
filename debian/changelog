@@ -1,23 +1,5 @@
-libnss-gw-name (0.2-2) UNRELEASED; urgency=low
+libnss-myhostname (0.2-1) unstable; urgency=low
 
-  * Fix typo in Homepage, thx to Tomas Pospisek for noticing (Closes: #574893)
+  * Initial release (Closes: #574800)
 
- -- Joachim Breitner <nomeata@debian.org>  Sun, 21 Mar 2010 23:40:54 +0100
-
-libnss-gw-name (0.2-1) unstable; urgency=low
-
-  * Actually release the previous change as a new upstream version.
-
- -- Joachim Breitner <nomeata@debian.org>  Sat, 20 Mar 2010 12:05:12 +0100
-
-libnss-gw-name (0.1-2) unstable; urgency=low
-
-  * Resolve “gateway.localhost” instead of “gateway.current” (Closes: #574561)
-
- -- Joachim Breitner <nomeata@debian.org>  Sat, 20 Mar 2010 11:00:46 +0100
-
-libnss-gw-name (0.1-1) unstable; urgency=low
-
-  * Initial release (Closes: #573605)
-
- -- Joachim Breitner <nomeata@debian.org>  Fri, 12 Mar 2010 22:05:33 +0100
+ -- Joachim Breitner <nomeata@debian.org>  Thu, 06 May 2010 15:34:50 +0200

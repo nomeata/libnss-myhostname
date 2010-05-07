@@ -1,25 +1,28 @@
-Source: libnss-gw-name
+Source: libnss-myhostname
 Section: admin
 Priority: extra
 Maintainer: Joachim Breitner <nomeata@debian.org>
 Build-Depends:
   debhelper (>= 7),
   pkg-config,
-  libnl-dev,
 # Disable multilib until libnl supports it
 # gcc-multilib [sparc i386 kfreebsd-amd64 amd64 mips mipsel powerpc s390]
 Standards-Version: 3.8.4
-Homepage: http://www.joachim-breitner.de/projects#libnss-gw-name
-VCS-Git: git://git.nomeata.de/libnss-gw-name.git
-VCS-Browser: http://git.nomeata.de/?p=libnss-gw-name.git
+Homepage: http://0pointer.de/lennart/projects/nss-myhostname/
+VCS-Git: git://git.nomeata.de/nss-myhostname.git
+VCS-Browser: http://git.nomeata.de/?p=nss-myhostname.git
 
 
-Package: libnss-gw-name
-Architecture: linux-any
+Package: libnss-myhostname
+Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: ${alternatelibs:Suggests}
-Description: nss module that names the current gateway’s IP address
- This Name Service Switch (NSS) module resolves the name “gateway.localhost” to
- the IP of the current default gateways of the system. This allows easy access
- to router configuration and to check if connectivity problems are local or
- not.
+Description: nss module providing falback resolution for the current hostname
+ This package contains a plugin for the Name Service Switc, providing host name
+ resolution for the locally configured system hostname as returned by
+ gethostname(2). It simply returns the IPv4 address 127.0.0.2 (wich
+ is on the local loopback) and the IPv6 address ::1 (which is the local host).
+ .
+ A lot of software relies on that the local host name is resolvable. This
+ package provides an alternative to the fragile and error-prone manual editing
+ of /etc/hosts.

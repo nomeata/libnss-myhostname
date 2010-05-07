@@ -22,7 +22,7 @@ remove_nss_entry() {
     fi
     perl -i -pe '
         my @remove=(
-            "gw_name",
+            "myhostname",
         );
         sub remove {
             my $s=shift;
