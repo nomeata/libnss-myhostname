@@ -11,10 +11,31 @@ DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 # Note: the main flavor is required
 FLAVORS := main
 
-# 32-bits flavor for 32-bits programs such as Sun's Java; see #410052
-ifeq (amd64,$(DEB_HOST_ARCH))
+ABIFLAG_32=-m32
+ABIFLAG_64=-m64
+
+ifeq ($(DEB_HOST_ARCH),sparc)
+FLAVORS += m64
+else ifeq ($(DEB_HOST_ARCH),i386)
+FLAVORS += m64
+else ifeq ($(DEB_HOST_ARCH),kfreebsd-amd64)
 FLAVORS += m32
+else ifeq ($(DEB_HOST_ARCH),amd64)
+FLAVORS += m32
+else ifeq ($(DEB_HOST_ARCH),mips)
+ABIFLAG_32=-mabi=n32
+ABIFLAG_64=-mabi=64
+FLAVORS += m64 m32
+else ifeq ($(DEB_HOST_ARCH),mipsel)
+ABIFLAG_32=-mabi=n32
+ABIFLAG_64=-mabi=64
+FLAVORS += m64 m32
+else ifeq ($(DEB_HOST_ARCH),powerpc)
+FLAVORS += m64
+else ifeq ($(DEB_HOST_ARCH),s390)
+FLAVORS += m64
 endif
+
 
 # build dir for the current flavor; this is only expanded in flavor specific
 # targets
@@ -37,12 +58,13 @@ ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
 endif
 
 main_configure_flags := $(common_configure_flags) --libdir=/lib
-
 m32_configure_flags := $(common_configure_flags) --libdir=/lib32
+m64_configure_flags := $(common_configure_flags) --libdir=/lib64
 
 common_cflags := -Wall -g -O$(if $(findstring noopt,$(DEB_BUILD_OPTIONS)),0,2)
 main_cflags := $(common_cflags)
-m32_cflags := $(common_cflags) -m32
+m32_cflags := $(common_cflags) $(ABIFLAG_32)
+m64_cflags := $(common_cflags) $(ABIFLAG_32)
 
 LDFLAGS += -Wl,-z,defs
 
