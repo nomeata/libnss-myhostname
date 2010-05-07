@@ -18,11 +18,10 @@ the Debian GNU/Linux distribution in file /usr/share/common-licenses/LGPL-2.1;
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 Fifth Floor, Boston, MA 02110-1301 USA
 
-The Makefile and debian/rules file is derived from the respective files in
+The debian/rules file is derived from the respective file in nss-mdns, created
+by Jeff Waugh, with some additions from the debian/rules file of
 libnss-extrausers, © 2001,2002,2009  Bernhard R. Link, licenced under the terms
 of the GPL-2.
 
 The debian/postinst, debian/postrm files were adapted from the files found in
 the nss-mdsn package, created by Jeff Waugh.
-
-Some code was derived from the nss-mdns package, © 2004, Lennart Poettering.
