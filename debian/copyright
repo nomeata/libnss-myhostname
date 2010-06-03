@@ -24,4 +24,4 @@ libnss-extrausers, © 2001,2002,2009  Bernhard R. Link, licenced under the terms
 of the GPL-2.
 
 The debian/postinst, debian/postrm files were adapted from the files found in
-the nss-mdsn package, created by Jeff Waugh.
+the nss-mdns package, created by Jeff Waugh.
