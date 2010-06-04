@@ -1,0 +1,27 @@
+From 3d6850feeeb20d7e967790859ee4dc64e5a255bf Mon Sep 17 00:00:00 2001
+From: Joachim Breitner <mail@joachim-breitner.de>
+Date: Fri, 4 Jun 2010 12:45:57 +0200
+Subject: Use 172.0.1.1
+
+---
+ nss-myhostname.c |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+diff --git a/nss-myhostname.c b/nss-myhostname.c
+index 758a185..a0748b0 100644
+--- a/nss-myhostname.c
++++ b/nss-myhostname.c
+@@ -40,7 +40,9 @@
+  * IPv6 we use ::1 which unfortunately will not translate back to the
+  * hostname but instead something like "localhost6" or so. */
+ 
+-#define LOCALADDRESS_IPV4 (htonl(0x7F000002))
++/* DEBIAN: Default /etc/hosts uses 172.0.1.1, so that is what we use as well */
++
++#define LOCALADDRESS_IPV4 (htonl(0x7F000101))
+ #define LOCALADDRESS_IPV6 &in6addr_loopback
+ #define LOOPBACK_INTERFACE "lo"
+ 
+-- 
+1.7.1
+

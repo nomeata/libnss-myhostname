@@ -1,0 +1,33 @@
+From 05d5fadd9cea87719bd595cbe18841cb4f8647d2 Mon Sep 17 00:00:00 2001
+From: Joachim Breitner <mail@joachim-breitner.de>
+Date: Fri, 4 Jun 2010 11:27:46 +0200
+Subject: Fix building on kFreeBSD (MAX_HOST_NAME)
+
+---
+ configure.ac |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index f2b7e69..4dca6d3 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -66,6 +66,16 @@ AC_FUNC_MALLOC
+ AC_FUNC_SELECT_ARGTYPES
+ AC_CHECK_FUNCS([gethostbyaddr gethostbyname gettimeofday inet_ntoa memset select socket strcspn strdup strerror strncasecmp strcasecmp strspn])
+ 
++# HOST_NAME_MAX not available on BSD-Kernels
++# first call to AC_CHECK_DECL can not be nested, thus add a dummy call here
++AC_CHECK_DECL(DUMMY,[],[])
++AC_CHECK_DECL(HOST_NAME_MAX,[],
++ AC_CHECK_DECL(_POSIX_HOST_NAME_MAX,
++ AC_DEFINE(HOST_NAME_MAX, _POSIX_HOST_NAME_MAX, []),
++  AC_DEFINE(HOST_NAME_MAX, 256, [Define to 256 if neither have HOST_NAME_MAX nor _POSIX_HOST_NAME_MAX]),
++  [[#include <limits.h>]]),
++[[#include <limits.h>]])
++
+ # LYNX documentation generation
+ ZP_LYNX_DOC
+ 
+-- 
+1.7.1
+

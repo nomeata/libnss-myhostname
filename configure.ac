@@ -66,6 +66,16 @@ AC_FUNC_MALLOC
 AC_FUNC_SELECT_ARGTYPES
 AC_CHECK_FUNCS([gethostbyaddr gethostbyname gettimeofday inet_ntoa memset select socket strcspn strdup strerror strncasecmp strcasecmp strspn])
 
+# HOST_NAME_MAX not available on BSD-Kernels
+# first call to AC_CHECK_DECL can not be nested, thus add a dummy call here
+AC_CHECK_DECL(DUMMY,[],[])
+AC_CHECK_DECL(HOST_NAME_MAX,[],
+ AC_CHECK_DECL(_POSIX_HOST_NAME_MAX,
+ AC_DEFINE(HOST_NAME_MAX, _POSIX_HOST_NAME_MAX, []),
+  AC_DEFINE(HOST_NAME_MAX, 256, [Define to 256 if neither have HOST_NAME_MAX nor _POSIX_HOST_NAME_MAX]),
+  [[#include <limits.h>]]),
+[[#include <limits.h>]])
+
 # LYNX documentation generation
 ZP_LYNX_DOC
 
