@@ -39,7 +39,9 @@
  * IPv6 we use ::1 which unfortunately will not translate back to the
  * hostname but instead something like "localhost6" or so. */
 
-#define LOCALADDRESS_IPV4 (htonl(0x7F000002))
+/* DEBIAN: Default /etc/hosts uses 172.0.1.1, so that is what we use as well */
+
+#define LOCALADDRESS_IPV4 (htonl(0x7F000101))
 #define LOCALADDRESS_IPV6 &in6addr_loopback
 #define LOOPBACK_INTERFACE "lo"
 
