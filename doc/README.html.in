@@ -62,7 +62,7 @@ patching <tt>/etc/hosts</tt> which however is suboptimal since it
 requires a writable <tt>/etc</tt> file system and is fragile because
 the file might also be edited by the
 administrator. <tt>nss-myhostname</tt> simply returns the IPv4
-address <tt>127.0.0.2</tt> (wich is on the local loopback) and the
+address <tt>127.0.1.1</tt> (wich is on the local loopback) and the
 IPv6 address <tt>::1</tt> (which is the local host) for whatever
 system hostname is configured locally. Patching <tt>/etc/hostname</tt> is thus no longer necessary.</p>
 
@@ -107,9 +107,9 @@ use <tt>glibc</tt>'s <tt>getent</tt> tool:
 ::1             STREAM omega
 ::1             DGRAM
 ::1             RAW
-127.0.0.2       STREAM
-127.0.0.2       DGRAM
-127.0.0.2       RAW
+127.0.1.1       STREAM
+127.0.1.1       DGRAM
+127.0.1.1       RAW
 </pre>
 
 <p>In this case the local host name is <i>omega</i>.</p>

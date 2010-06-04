@@ -1,12 +1,39 @@
-From 3d6850feeeb20d7e967790859ee4dc64e5a255bf Mon Sep 17 00:00:00 2001
+From 40c86d09d133cd902715c20a6547094e36606109 Mon Sep 17 00:00:00 2001
 From: Joachim Breitner <mail@joachim-breitner.de>
 Date: Fri, 4 Jun 2010 12:45:57 +0200
 Subject: Use 172.0.1.1
 
 ---
- nss-myhostname.c |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ doc/README.html.in |    8 ++++----
+ nss-myhostname.c   |    4 +++-
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
+diff --git a/doc/README.html.in b/doc/README.html.in
+index 4721c4d..6934bed 100644
+--- a/doc/README.html.in
++++ b/doc/README.html.in
+@@ -62,7 +62,7 @@ patching <tt>/etc/hosts</tt> which however is suboptimal since it
+ requires a writable <tt>/etc</tt> file system and is fragile because
+ the file might also be edited by the
+ administrator. <tt>nss-myhostname</tt> simply returns the IPv4
+-address <tt>127.0.0.2</tt> (wich is on the local loopback) and the
++address <tt>127.0.1.1</tt> (wich is on the local loopback) and the
+ IPv6 address <tt>::1</tt> (which is the local host) for whatever
+ system hostname is configured locally. Patching <tt>/etc/hostname</tt> is thus no longer necessary.</p>
+ 
+@@ -107,9 +107,9 @@ use <tt>glibc</tt>'s <tt>getent</tt> tool:
+ ::1             STREAM omega
+ ::1             DGRAM
+ ::1             RAW
+-127.0.0.2       STREAM
+-127.0.0.2       DGRAM
+-127.0.0.2       RAW
++127.0.1.1       STREAM
++127.0.1.1       DGRAM
++127.0.1.1       RAW
+ </pre>
+ 
+ <p>In this case the local host name is <i>omega</i>.</p>
 diff --git a/nss-myhostname.c b/nss-myhostname.c
 index 758a185..a0748b0 100644
 --- a/nss-myhostname.c
