@@ -1,6 +1,8 @@
 libnss-myhostname (0.2-2) UNRELEASED; urgency=low
 
   * Fix VCS URL in controls file 
+  * Use 127.0.1.1 for consistency with Debian’s default /etc/hosts (Closes: #583624)
+  * Amend configure.ac to cater for non-defined MAX_HOST_NAME
 
  -- Joachim Breitner <nomeata@debian.org>  Fri, 07 May 2010 21:57:40 +0200
 
