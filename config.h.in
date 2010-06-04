@@ -100,6 +100,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 256 if neither have HOST_NAME_MAX nor _POSIX_HOST_NAME_MAX */
+#undef HOST_NAME_MAX
+
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
 #undef LT_OBJDIR
