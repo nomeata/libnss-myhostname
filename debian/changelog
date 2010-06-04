@@ -1,10 +1,11 @@
-libnss-myhostname (0.2-2) UNRELEASED; urgency=low
+libnss-myhostname (0.2-2) unstable; urgency=low
 
   * Fix VCS URL in controls file 
-  * Use 127.0.1.1 for consistency with Debian’s default /etc/hosts (Closes: #583624)
+  * Use 127.0.1.1 for consistency with Debian’s default /etc/hosts (Closes:
+    #583624)
   * Amend configure.ac to cater for non-defined MAX_HOST_NAME
 
- -- Joachim Breitner <nomeata@debian.org>  Fri, 07 May 2010 21:57:40 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Fri, 04 Jun 2010 12:59:21 +0200
 
 libnss-myhostname (0.2-1) unstable; urgency=low
 
