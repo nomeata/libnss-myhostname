@@ -1,3 +1,9 @@
+libnss-myhostname (0.2-3) UNRELEASED; urgency=low
+
+  * Typo in description (Closes: #584640)
+
+ -- Joachim Breitner <nomeata@debian.org>  Sun, 06 Jun 2010 00:31:19 +0200
+
 libnss-myhostname (0.2-2) unstable; urgency=low
 
   * Fix VCS URL in controls file 
