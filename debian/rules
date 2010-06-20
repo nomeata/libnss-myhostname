@@ -64,7 +64,7 @@ m64_configure_flags := $(common_configure_flags) --libdir=/lib64
 common_cflags := -Wall -g -O$(if $(findstring noopt,$(DEB_BUILD_OPTIONS)),0,2)
 main_cflags := $(common_cflags)
 m32_cflags := $(common_cflags) $(ABIFLAG_32)
-m64_cflags := $(common_cflags) $(ABIFLAG_32)
+m64_cflags := $(common_cflags) $(ABIFLAG_64)
 
 LDFLAGS += -Wl,-z,defs
 
