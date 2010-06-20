@@ -1,10 +1,10 @@
-libnss-myhostname (0.2-3) UNRELEASED; urgency=low
+libnss-myhostname (0.2-3) unstable; urgency=low
 
   * Typo in description (Closes: #584640)
   * Build-Depend on lynx for README creation
   * Actually use -m64 option when building 64bit libraries
 
- -- Joachim Breitner <nomeata@debian.org>  Sun, 06 Jun 2010 00:31:19 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Sun, 20 Jun 2010 23:16:34 +0200
 
 libnss-myhostname (0.2-2) unstable; urgency=low
 
