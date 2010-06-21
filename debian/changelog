@@ -1,3 +1,10 @@
+libnss-myhostname (0.2-4) UNRELEASED; urgency=low
+
+  * Try to pass a more correct --build parameter to ./configure when building
+    multilib variants.
+
+ -- Joachim Breitner <nomeata@debian.org>  Mon, 21 Jun 2010 14:57:57 +0200
+
 libnss-myhostname (0.2-3) unstable; urgency=low
 
   * Typo in description (Closes: #584640)

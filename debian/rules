@@ -16,24 +16,36 @@ ABIFLAG_64=-m64
 
 ifeq ($(DEB_HOST_ARCH),sparc)
 FLAVORS += m64
+DEB_BUILD_GNU_TYPE_32 = sparc64-linux-gnu
 else ifeq ($(DEB_HOST_ARCH),i386)
 FLAVORS += m64
+DEB_BUILD_GNU_TYPE_64 = x86_64-linux-gnu
 else ifeq ($(DEB_HOST_ARCH),kfreebsd-amd64)
 FLAVORS += m32
+DEB_BUILD_GNU_TYPE_32 = i486-kfreebsd-gnu
 else ifeq ($(DEB_HOST_ARCH),amd64)
 FLAVORS += m32
+DEB_BUILD_GNU_TYPE_32 = i486-linux-gnu
 else ifeq ($(DEB_HOST_ARCH),mips)
 ABIFLAG_32=-mabi=n32
 ABIFLAG_64=-mabi=64
 FLAVORS += m64 m32
+# What to put here?
+DEB_BUILD_GNU_TYPE_32 = $(DEB_BUILD_GNU_TYPE)
+DEB_BUILD_GNU_TYPE_64 = $(DEB_BUILD_GNU_TYPE)
 else ifeq ($(DEB_HOST_ARCH),mipsel)
 ABIFLAG_32=-mabi=n32
 ABIFLAG_64=-mabi=64
 FLAVORS += m64 m32
+# What to put here?
+DEB_BUILD_GNU_TYPE_32 = $(DEB_BUILD_GNU_TYPE)
+DEB_BUILD_GNU_TYPE_64 = $(DEB_BUILD_GNU_TYPE)
 else ifeq ($(DEB_HOST_ARCH),powerpc)
 FLAVORS += m64
+DEB_BUILD_GNU_TYPE_64 = powerpc64-linux-gnu
 else ifeq ($(DEB_HOST_ARCH),s390)
 FLAVORS += m64
+DEB_BUILD_GNU_TYPE_64 = s390x-linux-gnu
 endif
 
 
@@ -51,14 +63,14 @@ common_configure_flags += \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--libexecdir=/lib/nss-myhostname \
-		--build=$(DEB_BUILD_GNU_TYPE)
-ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
-	configure_flags += --host=$(DEB_HOST_GNU_TYPE)
-endif
+		--host=$(DEB_HOST_GNU_TYPE)
 
-main_configure_flags := $(common_configure_flags) --libdir=/lib
-m32_configure_flags := $(common_configure_flags) --libdir=/lib32
-m64_configure_flags := $(common_configure_flags) --libdir=/lib64
+main_configure_flags := $(common_configure_flags) --libdir=/lib \
+		--build=$(DEB_BUILD_GNU_TYPE)
+m32_configure_flags := $(common_configure_flags) --libdir=/lib32 \
+		--build=$(DEB_BUILD_GNU_TYPE_32)
+m64_configure_flags := $(common_configure_flags) --libdir=/lib64 \
+		--build=$(DEB_BUILD_GNU_TYPE_64)
 
 common_cflags := -Wall -g -O$(if $(findstring noopt,$(DEB_BUILD_OPTIONS)),0,2)
 main_cflags := $(common_cflags)
