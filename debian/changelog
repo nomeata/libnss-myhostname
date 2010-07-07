@@ -1,3 +1,9 @@
+libnss-myhostname (0.2-5) UNRELEASED; urgency=low
+
+  * Bump standards version, no change
+
+ -- Joachim Breitner <nomeata@debian.org>  Wed, 07 Jul 2010 17:19:46 +0200
+
 libnss-myhostname (0.2-4) unstable; urgency=low
 
   * Try to pass a more correct --build parameter to ./configure when building
