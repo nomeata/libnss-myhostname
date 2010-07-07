@@ -1,10 +1,10 @@
-libnss-myhostname (0.2-5) UNRELEASED; urgency=low
+libnss-myhostname (0.2-5) unstable; urgency=low
 
   * Bump standards version, no change
   * Do not run dh_shlibps for .so files in /lib32 or /lib64, avoids dependency
     on (e.g.) libc6-amd64 (Closes: #587918)
 
- -- Joachim Breitner <nomeata@debian.org>  Wed, 07 Jul 2010 17:19:46 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Wed, 07 Jul 2010 17:31:34 +0200
 
 libnss-myhostname (0.2-4) unstable; urgency=low
 
