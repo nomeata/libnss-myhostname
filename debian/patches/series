@@ -1,3 +1,4 @@
 0001-Fix-building-on-kFreeBSD-MAX_HOST_NAME.patch
 0002-Use-172.0.1.1.patch
-0003-autoreconf.patch
+0003-Initialize-the-right-scope-field.patch
+0004-autoreconf.patch
