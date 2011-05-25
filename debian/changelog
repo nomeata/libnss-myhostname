@@ -1,3 +1,9 @@
+libnss-myhostname (0.2-6) UNRELEASED; urgency=low
+
+  * Fix typo in package description (Closes: #624526)
+
+ -- Joachim Breitner <nomeata@debian.org>  Wed, 25 May 2011 10:25:05 +0200
+
 libnss-myhostname (0.2-5) unstable; urgency=low
 
   * Bump standards version, no change
