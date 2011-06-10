@@ -13,9 +13,9 @@ log() {
     echo "$*"
 }
 
-# try to insert mdns entries to the "hosts" line in /etc/nsswitch.conf to
-# automatically enable libnss-myhostname support; do not change the configuration if the
-# "hosts" line already references some myhostname lookups
+# try to insert myhostname entries to the "hosts" line in /etc/nsswitch.conf to
+# automatically enable libnss-myhostname support; do not change the
+# configuration if the "hosts" line already references some myhostname lookups
 insert_nss_entry() {
     log "Checking NSS setup..."
     # abort if /etc/nsswitch.conf does not exist
@@ -28,7 +28,7 @@ insert_nss_entry() {
             # this also splits on tab
             my @bits=split(" ", shift);
             # do not break configuration if the "hosts" line already references
-            # mdns
+            # myhostname
             if (grep { $_ eq "myhostname"} @bits) {
                 return join " ", @bits;
             }
