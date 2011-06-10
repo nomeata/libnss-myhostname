@@ -7,7 +7,7 @@ Build-Depends:
   pkg-config,
   gcc-multilib [sparc i386 kfreebsd-amd64 amd64 mips mipsel powerpc s390],
   lynx
-Standards-Version: 3.9.0
+Standards-Version: 3.9.2
 Homepage: http://0pointer.de/lennart/projects/nss-myhostname/
 VCS-Git: git://git.nomeata.de/libnss-myhostname.git
 VCS-Browser: http://git.nomeata.de/?p=libnss-myhostname.git

@@ -32,9 +32,10 @@ insert_nss_entry() {
             if (grep { $_ eq "myhostname"} @bits) {
                 return join " ", @bits;
             }
-            # append myhostname at the end
-	    push @bits, "myhostname";
-	    return join " ",@bits;
+            # change "files" into "files myhostname"
+            return join " ", map {
+                $_ eq "files" ? ("$_","myhostname") : $_
+            } @bits;
         }
         s/^(hosts:\s+)(.*)/$1.insert($2)/e;
     ' /etc/nsswitch.conf

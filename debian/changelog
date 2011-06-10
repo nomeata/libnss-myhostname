@@ -2,6 +2,12 @@ libnss-myhostname (0.3-1) UNRELEASED; urgency=low
 
   * Fix typo in package description (Closes: #624526)
   * New upstream release (Closes: #630009)
+  * Bump standard version, no change
+  * Install myshostname directly after "files" in /etc/nsswitch.conf.
+    This avoids an annoying delay when dns fails and one wants to use sudo to
+    fix it. Is also closer to having the hostname in /etc/hosts, which is the
+    behaviour myhostname tries to mimic. Existing installations are not
+    modified.
 
  -- Joachim Breitner <nomeata@debian.org>  Wed, 25 May 2011 10:25:05 +0200
 
