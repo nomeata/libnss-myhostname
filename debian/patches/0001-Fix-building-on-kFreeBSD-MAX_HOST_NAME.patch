@@ -1,4 +1,4 @@
-From 05d5fadd9cea87719bd595cbe18841cb4f8647d2 Mon Sep 17 00:00:00 2001
+From 818479cdd74dd257bf53d013c03aa404ed47331b Mon Sep 17 00:00:00 2001
 From: Joachim Breitner <mail@joachim-breitner.de>
 Date: Fri, 4 Jun 2010 11:27:46 +0200
 Subject: Fix building on kFreeBSD (MAX_HOST_NAME)
@@ -8,10 +8,10 @@ Subject: Fix building on kFreeBSD (MAX_HOST_NAME)
  1 files changed, 10 insertions(+), 0 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index f2b7e69..4dca6d3 100644
+index 38cd58f..a766d7a 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -66,6 +66,16 @@ AC_FUNC_MALLOC
+@@ -69,6 +69,16 @@ AC_FUNC_MALLOC
  AC_FUNC_SELECT_ARGTYPES
  AC_CHECK_FUNCS([gethostbyaddr gethostbyname gettimeofday inet_ntoa memset select socket strcspn strdup strerror strncasecmp strcasecmp strspn])
  
@@ -29,5 +29,5 @@ index f2b7e69..4dca6d3 100644
  ZP_LYNX_DOC
  
 -- 
-1.7.1
+1.7.5.3
 

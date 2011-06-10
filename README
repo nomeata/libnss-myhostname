@@ -1,6 +1,6 @@
-                               nss-myhostname 0.2
+                               nss-myhostname 0.3
 
-   Copyright 2005-2008 Lennart Poettering <mzzlubfganzr (at) 0pointer
+   Copyright 2005-2011 Lennart Poettering <mzzlubfganzr (at) 0pointer
    (dot) de>
      * [1]License
      * [2]News
@@ -26,29 +26,36 @@ License
 
 News
 
+   Mon May 9 2011:
+
+   [10]Version 0.3 released. Changes include: Always return locally
+   configured IP addresses first, use 127.0.0.2/::1 only as fallback if no
+   addresses are configured.
+
    Mon Oct 27 2008:
 
-   [10]Version 0.2 released. Changes include: Update for IPv6 and newest
+   [11]Version 0.2 released. Changes include: Update for IPv6 and newest
    glibc NSS interfaces
 
    Sat Nov 19 2005:
 
-   [11]Version 0.1 released. Initial release.
+   [12]Version 0.1 released. Initial release.
 
 Overview
 
    nss-myhostname is a plugin for the GNU Name Service Switch (NSS)
    functionality of the GNU C Library (glibc) providing host name
    resolution for the locally configured system hostname as returned by
-   gethostname(2). A lot of software relies on that the local host name is
-   resolvable via DNS to an IPv4 or IPv6 address. When using dynamic
-   hostnames this is usually achieved by patching /etc/hosts which however
-   is suboptimal since it requires a writable /etc file system and is
-   fragile because the file might also be edited by the administrator.
-   nss-myhostname simply returns the IPv4 address 127.0.0.2 (wich is on
-   the local loopback) and the IPv6 address ::1 (which is the local host)
-   for whatever system hostname is configured locally. Patching
-   /etc/hostname is thus no longer necessary.
+   gethostname(2). Various software relies on an always resolvable local
+   host name. When using dynamic hostnames this is usually achieved by
+   patching /etc/hosts at the same time as changing the host name. This
+   however is not ideal since it requires a writable /etc file system and
+   is fragile because the file might be edited by the administrator at the
+   same time. nss-myhostname simply returns all locally configure public
+   IP addresses, or -- if none are configured -- the IPv4 address
+   127.0.0.2 (wich is on the local loopback) and the IPv6 address ::1
+   (which is the local host) for whatever system hostname is configured
+   locally. Patching /etc/hosts is thus no longer necessary.
 
 Current Status
 
@@ -99,8 +106,8 @@ Requirements
 
    nss-myhostname uses NSS interfaces that are specific to modern glibc's.
 
-   nss-myhostname was developed and tested on Fedora 10 from October 2008,
-   it should work on most other Linux distributions since it uses GNU
+   nss-myhostname was developed and tested on Fedora 15 from May 2011, it
+   should work on most other Linux distributions since it uses GNU
    autoconf and GNU libtool for source code configuration and shared
    library management.
 
@@ -118,18 +125,17 @@ Acknowledgements
 Download
 
    The newest release is always available from
-   [12]http://0pointer.de/lennart/projects/nss-myhostname/
+   [13]http://0pointer.de/lennart/projects/nss-myhostname/
 
-   The current release is [13]0.2
+   The current release is [14]0.3
 
-   Get nss-myhostname's development sources from the [14]GIT
-   [15]repository ([16]gitweb):
+   Get nss-myhostname's development sources from the [15]GIT
+   [16]repository ([17]gitweb):
 git clone git://git.0pointer.de/nss-myhostname
      __________________________________________________________________
 
 
-    Lennart Poettering <mzzlubfganzr (at) 0pointer (dot) de>, October
-    2008
+    Lennart Poettering <mzzlubfganzr (at) 0pointer (dot) de>, May 2011
 
 References
 
@@ -142,10 +148,11 @@ References
    7. README#installation
    8. README#acks
    9. README#download
-  10. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.2.tar.gz
-  11. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.1.tar.gz
-  12. http://0pointer.de/lennart/projects/nss-myhostname/
-  13. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.2.tar.gz
-  14. http://git.or.cz/
-  15. git://git.0pointer.de/nss-myhostname
-  16. http://git.0pointer.de/?p=nss-myhostname.git
+  10. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.3.tar.gz
+  11. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.2.tar.gz
+  12. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.1.tar.gz
+  13. http://0pointer.de/lennart/projects/nss-myhostname/
+  14. http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-0.3.tar.gz
+  15. http://git.or.cz/
+  16. git://git.0pointer.de/nss-myhostname
+  17. http://git.0pointer.de/?p=nss-myhostname.git
