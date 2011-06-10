@@ -1,6 +1,7 @@
-libnss-myhostname (0.2-6) UNRELEASED; urgency=low
+libnss-myhostname (0.3-1) UNRELEASED; urgency=low
 
   * Fix typo in package description (Closes: #624526)
+  * New upstream release (Closes: #630009)
 
  -- Joachim Breitner <nomeata@debian.org>  Wed, 25 May 2011 10:25:05 +0200
 
