@@ -4,6 +4,7 @@ Priority: extra
 Maintainer: Joachim Breitner <nomeata@debian.org>
 Build-Depends:
   debhelper (>= 7),
+  dh-autoreconf,
   pkg-config,
   gcc-multilib [sparc i386 kfreebsd-amd64 amd64 mips mipsel powerpc s390],
   lynx

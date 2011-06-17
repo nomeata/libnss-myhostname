@@ -79,7 +79,12 @@ m64_cflags := $(common_cflags) $(ABIFLAG_64)
 
 LDFLAGS += -Wl,-z,defs
 
-$(STAMP_DIR)/configure-stamp-%:
+$(STAMP_DIR)/autoreconf-stamp:
+	dh_autoreconf
+	-mkdir -p $(STAMP_DIR)
+	touch $@
+
+$(STAMP_DIR)/configure-stamp-%: $(STAMP_DIR)/autoreconf-stamp
 	dh_testdir
 	mkdir -p $(builddir)
 	cd $(builddir) && \
@@ -110,6 +115,7 @@ clean:
 	rm -rf $(installbasedir)
 	rm -rf $(buildbasedir)
 	-rm -rf $(STAMP_DIR)
+	dh_autoreconf_clean
 	dh_clean
 
 binary-indep: build install
