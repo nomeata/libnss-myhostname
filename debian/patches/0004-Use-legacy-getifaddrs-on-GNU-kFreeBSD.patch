@@ -1,0 +1,372 @@
+From b0bd0cd96c5d0e27330ef93e009ad835bfd19087 Mon Sep 17 00:00:00 2001
+From: Robert Millan <rmh@debian.org>
+Date: Fri, 17 Jun 2011 09:32:35 +0200
+Subject: Use legacy getifaddrs() on GNU/kFreeBSD.
+
+---
+ Makefile.am      |    9 ++++-
+ configure.ac     |    7 ++++
+ ifconf.h         |   74 ++++++++++++++++++++++++++++++++++++++++++
+ legacy.c         |   94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ netlink.c        |   27 +--------------
+ netlink.h        |   48 ---------------------------
+ nss-myhostname.c |    8 ++--
+ 7 files changed, 188 insertions(+), 79 deletions(-)
+ create mode 100644 ifconf.h
+ create mode 100644 legacy.c
+ delete mode 100644 netlink.h
+
+diff --git a/Makefile.am b/Makefile.am
+index 7f2f3a3..f82b8d4 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -43,8 +43,13 @@ homepage: all dist
+ 
+ libnss_myhostname_la_SOURCES = \
+ 	nss-myhostname.c \
+-	netlink.c \
+-	netlink.h
++	ifconf.h
++
++if LEGACY
++libnss_myhostname_la_SOURCES += legacy.c
++else
++libnss_myhostname_la_SOURCES += netlink.c
++endif
+ 
+ libnss_myhostname_la_LDFLAGS = \
+ 	-avoid-version \
+diff --git a/configure.ac b/configure.ac
+index a766d7a..3f4263e 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -33,6 +33,13 @@ AC_SUBST(PACKAGE_URL, [http://0pointer.de/lennart/projects/nss-myhostname/])
+ 
+ ac_default_prefix="/"
+ 
++AC_CANONICAL_HOST
++case "$host_os" in
++	linux*)	legacy=false ;;
++	*)	legacy=true ;;
++esac
++AM_CONDITIONAL([LEGACY], [test x$legacy = xtrue])
++
+ # Checks for programs.
+ AC_PROG_CC
+ AC_PROG_CC_C99
+diff --git a/ifconf.h b/ifconf.h
+new file mode 100644
+index 0000000..6b2c83f
+--- /dev/null
++++ b/ifconf.h
+@@ -0,0 +1,74 @@
++/*-*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*-*/
++
++#ifndef fooifconfhfoo
++#define fooifconfhfoo
++
++#include <sys/socket.h>
++
++/***
++  This file is part of nss-myhostname.
++
++  Copyright 2008-2011 Lennart Poettering
++
++  nss-myhostname is free software; you can redistribute it and/or
++  modify it under the terms of the GNU Lesser General Public License
++  as published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  nss-myhostname is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++  Lesser General Public License for more details.
++
++  You should have received a copy of the GNU Lesser General Public
++  License along with nss-myhostname; If not, see
++  <http://www.gnu.org/licenses/>.
++***/
++
++#include <inttypes.h>
++#include <sys/types.h>
++#include <assert.h>
++
++struct address {
++        unsigned char family;
++        uint8_t address[16];
++        unsigned char scope;
++        int ifindex;
++};
++
++#define _public_ __attribute__ ((visibility("default")))
++#define _hidden_ __attribute__ ((visibility("hidden")))
++
++int ifconf_acquire_addresses(struct address **_list, unsigned *_n_list) _hidden_;
++
++static inline size_t PROTO_ADDRESS_SIZE(int proto) {
++        assert(proto == AF_INET || proto == AF_INET6);
++
++        return proto == AF_INET6 ? 16 : 4;
++}
++
++static inline int address_compare(const void *_a, const void *_b) {
++        const struct address *a = _a, *b = _b;
++
++        /* Order lowest scope first, IPv4 before IPv6, lowest interface index first */
++
++        if (a->scope < b->scope)
++                return -1;
++        if (a->scope > b->scope)
++                return 1;
++
++        if (a->family == AF_INET && b->family == AF_INET6)
++                return -1;
++        if (a->family == AF_INET6 && b->family == AF_INET)
++                return 1;
++
++        if (a->ifindex < b->ifindex)
++                return -1;
++        if (a->ifindex > b->ifindex)
++                return 1;
++
++        return 0;
++}
++
++
++#endif
+diff --git a/legacy.c b/legacy.c
+new file mode 100644
+index 0000000..8e705c7
+--- /dev/null
++++ b/legacy.c
+@@ -0,0 +1,94 @@
++/*-*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*-*/
++
++/***
++  This file is part of nss-myhostname.
++
++  Copyright 2008-2011 Lennart Poettering
++  Copyright 2011 Robert millan
++
++  nss-myhostname is free software; you can redistribute it and/or
++  modify it under the terms of the GNU Lesser General Public License
++  as published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  nss-myhostname is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++  Lesser General Public License for more details.
++
++  You should have received a copy of the GNU Lesser General Public
++  License along with nss-myhostname; If not, see
++  <http://www.gnu.org/licenses/>.
++***/
++
++#include <sys/types.h>
++#include <errno.h>
++#include <ifaddrs.h>
++#include <stdlib.h>
++#include <string.h>
++#include <netinet/in.h>
++
++#include "ifconf.h"
++
++int ifconf_acquire_addresses(struct address **_list, unsigned *_n_list) {
++
++        struct address *list = NULL;
++        unsigned n_list = 0;
++
++        struct ifaddrs *ifa = NULL;
++        int r = 1;
++        struct ifaddrs *i;
++        int ifindex = 0;
++
++        if (getifaddrs(&ifa) == -1) { 
++                r = -errno;
++                goto finish;
++        }
++
++        for (i = ifa; i != NULL; i = i->ifa_next) {
++                int af;
++                const void *cp;
++                struct sockaddr_in6 *in6 = (struct sockaddr_in6 *) i->ifa_addr;
++                struct sockaddr_in *in = (struct sockaddr_in *) i->ifa_addr;
++
++                if (! i->ifa_addr)
++                        continue;
++
++                af = i->ifa_addr->sa_family;
++
++                if (af != AF_INET && af != AF_INET6)
++                        continue;
++
++                list = realloc(list, (n_list+1) * sizeof(struct address));
++                if (!list) {
++                        r = -ENOMEM;
++                        goto finish;
++                }
++
++                if (af == AF_INET6)
++                        cp = &in6->sin6_addr;
++                else
++                        cp = &in->sin_addr;
++
++                list[n_list].family = af;
++                list[n_list].scope = 0;
++                memcpy(list[n_list].address, cp, af == AF_INET ? 4 : 16);
++                list[n_list].ifindex = ifindex++;
++                n_list++;
++        }
++
++finish:
++        if (ifa)
++                freeifaddrs(ifa);
++
++        if (r < 0)
++                free(list);
++        else {
++                qsort(list, n_list, sizeof(struct address), address_compare);
++
++                *_list = list;
++                *_n_list = n_list;
++        }
++
++        return r;
++}
+diff --git a/netlink.c b/netlink.c
+index e7a3863..29f38e3 100644
+--- a/netlink.c
++++ b/netlink.c
+@@ -35,32 +35,9 @@
+ #include <inttypes.h>
+ #include <stdlib.h>
+ 
+-#include "netlink.h"
++#include "ifconf.h"
+ 
+-static int address_compare(const void *_a, const void *_b) {
+-        const struct address *a = _a, *b = _b;
+-
+-        /* Order lowest scope first, IPv4 before IPv6, lowest interface index first */
+-
+-        if (a->scope < b->scope)
+-                return -1;
+-        if (a->scope > b->scope)
+-                return 1;
+-
+-        if (a->family == AF_INET && b->family == AF_INET6)
+-                return -1;
+-        if (a->family == AF_INET6 && b->family == AF_INET)
+-                return 1;
+-
+-        if (a->ifindex < b->ifindex)
+-                return -1;
+-        if (a->ifindex > b->ifindex)
+-                return 1;
+-
+-        return 0;
+-}
+-
+-int netlink_acquire_addresses(struct address **_list, unsigned *_n_list) {
++int ifconf_acquire_addresses(struct address **_list, unsigned *_n_list) {
+ 
+         struct {
+                 struct nlmsghdr hdr;
+diff --git a/netlink.h b/netlink.h
+deleted file mode 100644
+index 4f00248..0000000
+--- a/netlink.h
++++ /dev/null
+@@ -1,48 +0,0 @@
+-/*-*- Mode: C; c-basic-offset: 8; indent-tabs-mode: nil -*-*/
+-
+-#ifndef foonetlinkhfoo
+-#define foonetlinkhfoo
+-
+-/***
+-  This file is part of nss-myhostname.
+-
+-  Copyright 2008-2011 Lennart Poettering
+-
+-  nss-myhostname is free software; you can redistribute it and/or
+-  modify it under the terms of the GNU Lesser General Public License
+-  as published by the Free Software Foundation; either version 2.1 of
+-  the License, or (at your option) any later version.
+-
+-  nss-myhostname is distributed in the hope that it will be useful,
+-  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+-  Lesser General Public License for more details.
+-
+-  You should have received a copy of the GNU Lesser General Public
+-  License along with nss-myhostname; If not, see
+-  <http://www.gnu.org/licenses/>.
+-***/
+-
+-#include <inttypes.h>
+-#include <sys/types.h>
+-#include <assert.h>
+-
+-struct address {
+-        unsigned char family;
+-        uint8_t address[16];
+-        unsigned char scope;
+-        int ifindex;
+-};
+-
+-#define _public_ __attribute__ ((visibility("default")))
+-#define _hidden_ __attribute__ ((visibility("hidden")))
+-
+-int netlink_acquire_addresses(struct address **_list, unsigned *_n_list) _hidden_;
+-
+-static inline size_t PROTO_ADDRESS_SIZE(int proto) {
+-        assert(proto == AF_INET || proto == AF_INET6);
+-
+-        return proto == AF_INET6 ? 16 : 4;
+-}
+-
+-#endif
+diff --git a/nss-myhostname.c b/nss-myhostname.c
+index 5a7aa80..2e46c36 100644
+--- a/nss-myhostname.c
++++ b/nss-myhostname.c
+@@ -32,7 +32,7 @@
+ #include <stdlib.h>
+ #include <arpa/inet.h>
+ 
+-#include "netlink.h"
++#include "ifconf.h"
+ 
+ /* We use 127.0.0.2 as IPv4 address. This has the advantage over
+  * 127.0.0.1 that it can be translated back to the local hostname. For
+@@ -120,7 +120,7 @@ enum nss_status _nss_myhostname_gethostbyname4_r(
+         }
+ 
+         /* If this fails, n_addresses is 0. Which is fine */
+-        netlink_acquire_addresses(&addresses, &n_addresses);
++        ifconf_acquire_addresses(&addresses, &n_addresses);
+ 
+         /* If this call fails we fill in 0 as scope. Which is fine */
+         lo_ifi = if_nametoindex(LOOPBACK_INTERFACE);
+@@ -206,7 +206,7 @@ static enum nss_status fill_in_hostent(
+ 
+         alen = PROTO_ADDRESS_SIZE(af);
+ 
+-        netlink_acquire_addresses(&addresses, &n_addresses);
++        ifconf_acquire_addresses(&addresses, &n_addresses);
+ 
+         for (a = addresses, n = 0, c = 0; n < n_addresses; a++, n++)
+                 if (af == a->family)
+@@ -405,7 +405,7 @@ enum nss_status _nss_myhostname_gethostbyaddr2_r(
+                 return NSS_STATUS_UNAVAIL;
+         }
+ 
+-        netlink_acquire_addresses(&addresses, &n_addresses);
++        ifconf_acquire_addresses(&addresses, &n_addresses);
+ 
+         for (a = addresses, n = 0; n < n_addresses; n++, a++) {
+                 if (af != a->family)
+-- 
+1.7.5.4
+
