@@ -1,4 +1,4 @@
-From b0bd0cd96c5d0e27330ef93e009ad835bfd19087 Mon Sep 17 00:00:00 2001
+From ae8333c7c8ab5c3b0ffadd2c2621429d2a7c072f Mon Sep 17 00:00:00 2001
 From: Robert Millan <rmh@debian.org>
 Date: Fri, 17 Jun 2011 09:32:35 +0200
 Subject: Use legacy getifaddrs() on GNU/kFreeBSD.
