@@ -27,7 +27,7 @@ dist_doc_DATA = README
 MAINTAINERCLEANFILES += README
 
 README: README.html
-	lynx --dump $^ | sed 's,file://localhost/.*/doc/README.html,README,' > $@
+	LANG=C lynx --dump $^ | sed 's,file://localhost/.*/doc/README.html,README,' > $@
 
 CLEANFILES += README
 endif
