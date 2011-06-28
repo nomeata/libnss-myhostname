@@ -458,7 +458,7 @@ uninstall-am: uninstall-dist_docDATA uninstall-dist_htmlDATA
 
 
 @USE_LYNX_TRUE@README: README.html
-@USE_LYNX_TRUE@	lynx --dump $^ | sed 's,file://localhost/.*/doc/README.html,README,' > $@
+@USE_LYNX_TRUE@	LANG=C lynx --dump $^ | sed 's,file://localhost/.*/doc/README.html,README,' > $@
 
 tidy: README.html
 	tidy -qe < README.html ; true
