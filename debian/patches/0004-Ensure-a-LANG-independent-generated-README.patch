@@ -1,0 +1,25 @@
+From b8ca226377b65009687b951505ec934632583456 Mon Sep 17 00:00:00 2001
+From: Joachim Breitner <mail@joachim-breitner.de>
+Date: Tue, 28 Jun 2011 12:52:48 +0200
+Subject: Ensure a LANG-independent generated README
+
+---
+ doc/Makefile.am |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/doc/Makefile.am b/doc/Makefile.am
+index 4f773ac..749efe2 100644
+--- a/doc/Makefile.am
++++ b/doc/Makefile.am
+@@ -27,7 +27,7 @@ dist_doc_DATA = README
+ MAINTAINERCLEANFILES += README
+ 
+ README: README.html
+-	lynx --dump $^ | sed 's,file://localhost/.*/doc/README.html,README,' > $@
++	LANG=C lynx --dump $^ | sed 's,file://localhost/.*/doc/README.html,README,' > $@
+ 
+ CLEANFILES += README
+ endif
+-- 
+1.7.5.4
+
