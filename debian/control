@@ -3,10 +3,9 @@ Section: admin
 Priority: extra
 Maintainer: Joachim Breitner <nomeata@debian.org>
 Build-Depends:
-  debhelper (>= 7),
+  debhelper (>= 8.1.3),
   dh-autoreconf,
   pkg-config,
-  gcc-multilib [sparc i386 kfreebsd-amd64 amd64 mips mipsel powerpc s390],
   lynx
 Standards-Version: 3.9.2
 Homepage: http://0pointer.de/lennart/projects/nss-myhostname/
@@ -17,6 +16,8 @@ VCS-Browser: http://git.nomeata.de/?p=libnss-myhostname.git
 Package: libnss-myhostname
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
 Description: nss module providing fallback resolution for the current hostname
  This package contains a plugin for the Name Service Switch, providing host
  name resolution for the locally configured system hostname as returned by

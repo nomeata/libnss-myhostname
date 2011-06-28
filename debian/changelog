@@ -1,3 +1,9 @@
+libnss-myhostname (0.3-3) UNRELEASED; urgency=low
+
+  * Implement Multi-Arch support 
+
+ -- Joachim Breitner <nomeata@debian.org>  Tue, 28 Jun 2011 12:34:52 +0200
+
 libnss-myhostname (0.3-2) unstable; urgency=low
 
   * Apply patch by Robert Millan, adding legacy support for BSD and hurd
