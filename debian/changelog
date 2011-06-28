@@ -1,10 +1,10 @@
-libnss-myhostname (0.3-3) UNRELEASED; urgency=low
+libnss-myhostname (0.3-3) unstable; urgency=low
 
   * Implement Multi-Arch support 
   * 0004-Ensure-a-LANG-independent-generated-README.patch: 
     Make sure the generated html file is independent of the current LANG
 
- -- Joachim Breitner <nomeata@debian.org>  Tue, 28 Jun 2011 12:34:52 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Tue, 28 Jun 2011 12:53:59 +0200
 
 libnss-myhostname (0.3-2) unstable; urgency=low
 
