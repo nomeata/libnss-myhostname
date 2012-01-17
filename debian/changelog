@@ -1,8 +1,8 @@
-libnss-myhostname (0.3-4) UNRELEASED; urgency=low
+libnss-myhostname (0.3-4) unstable; urgency=low
 
   * Fix Package's description to reflect changed behaviour. (Closes: #656218)
 
- -- Joachim Breitner <nomeata@debian.org>  Tue, 17 Jan 2012 22:06:28 +0100
+ -- Joachim Breitner <nomeata@debian.org>  Tue, 17 Jan 2012 22:08:50 +0100
 
 libnss-myhostname (0.3-3) unstable; urgency=low
 
