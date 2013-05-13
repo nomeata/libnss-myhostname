@@ -182,7 +182,7 @@ int ifconf_acquire_addresses(struct address **_list, unsigned *_n_list) {
 			// http://bugs.debian.org/705900
 			if (ifaddrmsg->ifa_family == AF_INET6 &&
 			    IN6_IS_ADDR_LINKLOCAL((const struct in6_addr *)address))
-			    continue
+			    continue;
 
                         list = realloc(list, (n_list+1) * sizeof(struct address));
                         if (!list) {
