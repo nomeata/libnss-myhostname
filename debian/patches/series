@@ -3,4 +3,3 @@
 0003-Use-legacy-getifaddrs-on-GNU-kFreeBSD.patch
 0004-Ensure-a-LANG-independent-generated-README.patch
 0005-Ignore-link-local-addresses.patch
-0006-Delete-generated-files.patch
