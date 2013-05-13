@@ -4,13 +4,13 @@ Date: Fri, 17 Jun 2011 09:32:35 +0200
 Subject: Use legacy getifaddrs() on GNU/kFreeBSD.
 
 ---
- Makefile.am      |    9 ++++-
- configure.ac     |    7 ++++
- ifconf.h         |   74 ++++++++++++++++++++++++++++++++++++++++++
- legacy.c         |   94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- netlink.c        |   27 +--------------
- netlink.h        |   48 ---------------------------
- nss-myhostname.c |    8 ++--
+ Makefile.am      |  9 ++++--
+ configure.ac     |  7 +++++
+ ifconf.h         | 74 ++++++++++++++++++++++++++++++++++++++++++++
+ legacy.c         | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ netlink.c        | 27 ++--------------
+ netlink.h        | 48 -----------------------------
+ nss-myhostname.c |  8 ++---
  7 files changed, 188 insertions(+), 79 deletions(-)
  create mode 100644 ifconf.h
  create mode 100644 legacy.c
@@ -367,6 +367,3 @@ index 5a7aa80..2e46c36 100644
  
          for (a = addresses, n = 0; n < n_addresses; n++, a++) {
                  if (af != a->family)
--- 
-1.7.5.4
-

@@ -4,8 +4,8 @@ Date: Fri, 4 Jun 2010 12:45:57 +0200
 Subject: Use 172.0.1.1
 
 ---
- doc/README.html.in |    8 ++++----
- nss-myhostname.c   |    4 +++-
+ doc/README.html.in | 8 ++++----
+ nss-myhostname.c   | 4 +++-
  2 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/doc/README.html.in b/doc/README.html.in
@@ -49,6 +49,3 @@ index 293166c..5a7aa80 100644
  #define LOCALADDRESS_IPV6 &in6addr_loopback
  #define LOOPBACK_INTERFACE "lo"
  
--- 
-1.7.5.4
-

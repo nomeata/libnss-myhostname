@@ -4,8 +4,8 @@ Date: Tue, 28 Jun 2011 12:52:48 +0200
 Subject: Ensure a LANG-independent generated README
 
 ---
- doc/Makefile.am |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ doc/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/doc/Makefile.am b/doc/Makefile.am
 index 4f773ac..749efe2 100644
@@ -20,6 +20,3 @@ index 4f773ac..749efe2 100644
  
  CLEANFILES += README
  endif
--- 
-1.7.5.4
-

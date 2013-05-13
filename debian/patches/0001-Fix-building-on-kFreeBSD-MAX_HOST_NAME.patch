@@ -4,8 +4,8 @@ Date: Fri, 4 Jun 2010 11:27:46 +0200
 Subject: Fix building on kFreeBSD (MAX_HOST_NAME)
 
 ---
- configure.ac |   10 ++++++++++
- 1 files changed, 10 insertions(+), 0 deletions(-)
+ configure.ac | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/configure.ac b/configure.ac
 index 38cd58f..a766d7a 100644
@@ -28,6 +28,3 @@ index 38cd58f..a766d7a 100644
  # LYNX documentation generation
  ZP_LYNX_DOC
  
--- 
-1.7.5.4
-

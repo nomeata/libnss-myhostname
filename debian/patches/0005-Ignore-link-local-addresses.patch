@@ -1,0 +1,27 @@
+From 345f513f38b0e1db1f79c8b54f4149cb9a9ecd46 Mon Sep 17 00:00:00 2001
+From: Joachim Breitner <mail@joachim-breitner.de>
+Date: Mon, 13 May 2013 10:34:57 +0200
+Subject: Ignore link-local addresses
+
+Closes: #705900
+---
+ netlink.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/netlink.c b/netlink.c
+index 29f38e3..e872784 100644
+--- a/netlink.c
++++ b/netlink.c
+@@ -178,6 +178,12 @@ int ifconf_acquire_addresses(struct address **_list, unsigned *_n_list) {
+                         if (!address)
+                                 continue;
+ 
++			// Avoid link-local address
++			// http://bugs.debian.org/705900
++			if (ifaddrmsg->ifa_family == AF_INET6 &&
++			    IN6_IS_ADDR_LINKLOCAL((const struct in6_addr *)address))
++			    continue
++
+                         list = realloc(list, (n_list+1) * sizeof(struct address));
+                         if (!list) {
+                                 r = -ENOMEM;
