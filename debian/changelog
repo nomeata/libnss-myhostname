@@ -1,8 +1,8 @@
-libnss-myhostname (0.3-5) UNRELEASED; urgency=low
+libnss-myhostname (0.3-5) unstable; urgency=low
 
   * Work around #705900: Ignore link-local addresses
 
- -- Joachim Breitner <nomeata@debian.org>  Mon, 13 May 2013 10:35:36 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Tue, 21 May 2013 15:43:56 +0200
 
 libnss-myhostname (0.3-4) unstable; urgency=low
 
