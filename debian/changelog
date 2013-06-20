@@ -1,3 +1,10 @@
+libnss-myhostname (0.3-6) UNRELEASED; urgency=low
+
+  * Fix duplicated ldconfig calls in maintainer scripts, thanks to Michael
+    Prokop for noticing. (Closes: #712802)
+
+ -- Joachim Breitner <nomeata@debian.org>  Thu, 20 Jun 2013 11:05:11 +0200
+
 libnss-myhostname (0.3-5) unstable; urgency=low
 
   * Work around #705900: Ignore link-local addresses

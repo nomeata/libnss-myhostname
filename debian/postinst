@@ -3,10 +3,6 @@ set -e
 
 #DEBHELPER#
 
-if [ "$1" = "configure" ]; then 
-	ldconfig
-fi
-
 # This code was taken from nss-mdns:
 
 log() {
