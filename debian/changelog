@@ -1,9 +1,11 @@
-libnss-myhostname (0.3-7) UNRELEASED; urgency=medium
+libnss-myhostname (0.3-7) unstable; urgency=medium
 
   * Add autopkgtest to test hostname resolution without /etc/hosts, and also
-    test with nscd installed. 
+    test with nscd installed.
+  * Fix nscd compatibility (Closes: #755053), thank to Sam Morris for digging
+    up the patch, taking from the systemd repository.
 
- -- Joachim Breitner <nomeata@debian.org>  Tue, 22 Jul 2014 17:32:36 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Tue, 22 Jul 2014 18:01:52 +0200
 
 libnss-myhostname (0.3-6) unstable; urgency=low
 
