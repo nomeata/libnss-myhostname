@@ -1,0 +1,41 @@
+From 7c1762cd9b31242bb044a8e2010c9938053b6d5d Mon Sep 17 00:00:00 2001
+From: Eelco Dolstra <eelco.dolstra@logicblox.com>
+Date: Mon, 4 Feb 2013 15:56:26 +0100
+Subject: copy first result to preallocated buffer
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Fixes a segfault in nscd when using nss-myhostname.
+
+Nscd expects that an NSS module's gethostbyname4_r function returns
+its first result in the pre-allocated gaih_addrtuple denoted by **pat.
+(See nscd/aicache.c in the Glibc sources.)  However, nss-myhostname
+doesn't fill in **pat but allocates the first result in ‘buffer’, then
+sets *pat.  So nscd crashes (e.g. when running ‘getent ahosts
+my-machine’).
+
+Hard to tell if this is a bug in nscd, since there doesn't seem to be
+a proper API spec for gethostbyname4_r.  But in any case, this patch
+fixes the crash by copying the first result to **pat.
+---
+ nss-myhostname.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/nss-myhostname.c b/nss-myhostname.c
+index 2e46c36..eca5b17 100644
+--- a/nss-myhostname.c
++++ b/nss-myhostname.c
+@@ -179,7 +179,11 @@ enum nss_status _nss_myhostname_gethostbyname4_r(
+         /* Verify the size matches */
+         assert(idx == ms);
+ 
+-        *pat = r_tuple_prev;
++        /* Nscd expects us to store the first record in **pat. */
++        if (*pat)
++                **pat = *r_tuple_prev;
++        else
++                *pat = r_tuple_prev;
+ 
+         if (ttlp)
+                 *ttlp = 0;
