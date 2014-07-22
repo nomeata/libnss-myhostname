@@ -1,0 +1,9 @@
+Tests: no_hosts
+Restrictions: needs-root breaks-testbed
+Depends: libnss-myhostname
+
+Tests: with_nscd
+Restrictions: needs-root breaks-testbed
+Depends: libnss-myhostname, nscd
+
+

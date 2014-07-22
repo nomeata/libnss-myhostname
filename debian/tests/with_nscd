@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+rm -f /etc/hosts
+
+echo hostname
+hostname
+
+echo 'getent hosts $(hostname)'
+# would not return 0 if this was not resolvable
+getent ahostsv4 $(hostname)
+
+echo 'getent hosts 127.0.1.1'
+# would not return 0 if this was not resolvable
+getent hosts 127.0.1.1
+
+echo 'checking for $(hostname) therein'
+getent hosts 127.0.1.1 | grep -q "$(hostname)"
+
+
