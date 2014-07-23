@@ -1,3 +1,9 @@
+libnss-myhostname (0.3-9) UNRELEASED; urgency=medium
+
+  * s/172/127/g in patch names and comments.
+
+ -- Joachim Breitner <nomeata@debian.org>  Wed, 23 Jul 2014 13:05:10 +0200
+
 libnss-myhostname (0.3-8) unstable; urgency=medium
 
   * Remove toc from README.html (Closes: #755788) 
