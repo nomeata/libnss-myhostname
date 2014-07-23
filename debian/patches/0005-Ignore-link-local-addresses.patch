@@ -1,4 +1,4 @@
-From cce547eac7d27b4476e646bfead3ba14b57a6ccc Mon Sep 17 00:00:00 2001
+From c187db9b187e6c3977304c413de673331f035578 Mon Sep 17 00:00:00 2001
 From: Joachim Breitner <mail@joachim-breitner.de>
 Date: Mon, 13 May 2013 10:34:57 +0200
 Subject: Ignore link-local addresses

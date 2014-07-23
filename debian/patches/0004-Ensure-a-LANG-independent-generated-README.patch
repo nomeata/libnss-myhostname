@@ -1,4 +1,4 @@
-From b8ca226377b65009687b951505ec934632583456 Mon Sep 17 00:00:00 2001
+From a47243f6e7cdbe43729f5c4044a0966596fe1502 Mon Sep 17 00:00:00 2001
 From: Joachim Breitner <mail@joachim-breitner.de>
 Date: Tue, 28 Jun 2011 12:52:48 +0200
 Subject: Ensure a LANG-independent generated README

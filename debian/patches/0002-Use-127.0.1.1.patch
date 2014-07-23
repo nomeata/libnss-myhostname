@@ -1,7 +1,7 @@
-From 00c1e329b6ec9eaa0ba0fcb6cf233fea597fb30b Mon Sep 17 00:00:00 2001
+From 842b9b4ada75f0323d66e683aaf68c78c0dfd8bd Mon Sep 17 00:00:00 2001
 From: Joachim Breitner <mail@joachim-breitner.de>
 Date: Fri, 4 Jun 2010 12:45:57 +0200
-Subject: Use 172.0.1.1
+Subject: Use 127.0.1.1
 
 ---
  doc/README.html.in | 8 ++++----
@@ -35,7 +35,7 @@ index f786182..7a2084e 100644
  
  <p>In this case the local host name is <i>omega</i>.</p>
 diff --git a/nss-myhostname.c b/nss-myhostname.c
-index 293166c..5a7aa80 100644
+index 293166c..3508b87 100644
 --- a/nss-myhostname.c
 +++ b/nss-myhostname.c
 @@ -39,7 +39,9 @@
@@ -43,7 +43,7 @@ index 293166c..5a7aa80 100644
   * hostname but instead something like "localhost6" or so. */
  
 -#define LOCALADDRESS_IPV4 (htonl(0x7F000002))
-+/* DEBIAN: Default /etc/hosts uses 172.0.1.1, so that is what we use as well */
++/* DEBIAN: Default /etc/hosts uses 127.0.1.1, so that is what we use as well */
 +
 +#define LOCALADDRESS_IPV4 (htonl(0x7F000101))
  #define LOCALADDRESS_IPV6 &in6addr_loopback

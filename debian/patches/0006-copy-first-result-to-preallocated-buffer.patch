@@ -1,4 +1,4 @@
-From 7c1762cd9b31242bb044a8e2010c9938053b6d5d Mon Sep 17 00:00:00 2001
+From 9d22508683c88953d68c354af061b6db596f24a4 Mon Sep 17 00:00:00 2001
 From: Eelco Dolstra <eelco.dolstra@logicblox.com>
 Date: Mon, 4 Feb 2013 15:56:26 +0100
 Subject: copy first result to preallocated buffer
@@ -23,7 +23,7 @@ fixes the crash by copying the first result to **pat.
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/nss-myhostname.c b/nss-myhostname.c
-index 2e46c36..eca5b17 100644
+index 03ba773..4a6a2e1 100644
 --- a/nss-myhostname.c
 +++ b/nss-myhostname.c
 @@ -179,7 +179,11 @@ enum nss_status _nss_myhostname_gethostbyname4_r(

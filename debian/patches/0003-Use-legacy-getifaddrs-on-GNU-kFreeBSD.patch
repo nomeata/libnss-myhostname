@@ -1,4 +1,4 @@
-From ae8333c7c8ab5c3b0ffadd2c2621429d2a7c072f Mon Sep 17 00:00:00 2001
+From 864f7758c2ebee8961a9b1989af64f31a6c0adb1 Mon Sep 17 00:00:00 2001
 From: Robert Millan <rmh@debian.org>
 Date: Fri, 17 Jun 2011 09:32:35 +0200
 Subject: Use legacy getifaddrs() on GNU/kFreeBSD.
@@ -328,7 +328,7 @@ index 4f00248..0000000
 -
 -#endif
 diff --git a/nss-myhostname.c b/nss-myhostname.c
-index 5a7aa80..2e46c36 100644
+index 3508b87..03ba773 100644
 --- a/nss-myhostname.c
 +++ b/nss-myhostname.c
 @@ -32,7 +32,7 @@
