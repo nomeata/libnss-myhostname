@@ -4,3 +4,4 @@
 0004-Ensure-a-LANG-independent-generated-README.patch
 0005-Ignore-link-local-addresses.patch
 0006-copy-first-result-to-preallocated-buffer.patch
+0007-Remove-toc-from-README.html.patch

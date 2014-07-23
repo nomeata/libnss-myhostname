@@ -1,0 +1,32 @@
+From d7248685fdb5fbb5b24724ed229eb5196b13f92e Mon Sep 17 00:00:00 2001
+From: Joachim Breitner <mail@joachim-breitner.de>
+Date: Wed, 23 Jul 2014 12:31:54 +0200
+Subject: Remove toc from README.html
+
+---
+ doc/README.html.in | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/doc/README.html.in b/doc/README.html.in
+index 7a2084e..a6fe6e5 100644
+--- a/doc/README.html.in
++++ b/doc/README.html.in
+@@ -12,18 +12,6 @@
+ 
+ <p><i>Copyright 2005-2011 Lennart Poettering &lt;@PACKAGE_BUGREPORT@&gt;</i></p>
+ 
+-<ul class="toc">
+-    <li><a href="#license">License</a></li>
+-    <li><a href="#news">News</a></li>
+-    <li><a href="#overview">Overview</a></li>
+-    <li><a href="#status">Current Status</a></li>
+-    <li><a href="#documentation">Documentation</a></li>
+-    <li><a href="#requirements">Requirements</a></li>
+-    <li><a href="#installation">Installation</a></li>
+-    <li><a href="#acks">Acknowledgements</a></li>
+-    <li><a href="#download">Download</a></li>
+-</ul>
+-
+ <h2><a name="license">License</a></h2>
+ 
+ <p>This program is free software; you can redistribute it and/or
