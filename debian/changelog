@@ -1,8 +1,8 @@
-libnss-myhostname (0.3-8) UNRELEASED; urgency=medium
+libnss-myhostname (0.3-8) unstable; urgency=medium
 
   * Remove toc from README.html (Closes: #755788) 
 
- -- Joachim Breitner <nomeata@debian.org>  Wed, 23 Jul 2014 12:32:06 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Wed, 23 Jul 2014 12:32:29 +0200
 
 libnss-myhostname (0.3-7) unstable; urgency=medium
 
